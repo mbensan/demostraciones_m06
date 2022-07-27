@@ -1,4 +1,5 @@
 const http = require('http')
+const axios = require('axios')
 
 
 const hostname = '127.0.0.1'
@@ -11,7 +12,7 @@ const port = 3000
 */
 
 
-const server = http.createServer( (req, res) => {
+const server = http.createServer(async (req, res) => {
 
   res.statusCode = 200
   res.setHeader('Content-Type', 'text/html')
@@ -47,6 +48,10 @@ const server = http.createServer( (req, res) => {
       anteayer: 'muy caro!'
     }
     respuesta = JSON.stringify(respuesta)
+  }
+  else if (req.url == '/api/clima') {
+    const data = await axios.get('https://api.gael.cloud/general/public/clima')
+    respuesta = JSON.stringify(data.data)
   }
   else {
     respuesta = 'Ruta no implementada'
