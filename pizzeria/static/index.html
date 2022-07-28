@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <style>
+      .indigo label {
+        color: aliceblue;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <nav>
+        <div class="nav-wrapper">
+          <a href="#" class="brand-logo">Mamma Mia</a>
+          <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><a href="sass.html">Sass</a></li>
+            <li><a href="badges.html">Components</a></li>
+            <li><a href="collapsible.html">JavaScript</a></li>
+          </ul>
+        </div>
+      </nav>
+      <div class="row">
+        <div class="col s4 offset-s4">
+          <form id="form-pizza" action="/new" class="card-panel indigo lighten-2">
+            <div class="row">
+              <div class="input-field col s12">
+                <select id="pizza" name="pizza" required>
+                  <option value="" disabled selected>Elija una pizza</option>
+                  <option value="4 quesos">4 quesos</option>
+                  <option value="napolitana">Napolitana</option>
+                  <option value="espaniola">Española</option>
+                  <option value="vegetariana">Vegetariana</option>
+                  <option value="hawaiana">Hawaiana</option>
+                </select>
+                <label>Pizza</label>
+              </div>
+              <div class="input-field col s12">
+                <select name="size" id="size" required>
+                  <option value="" disabled selected>Tamaño</option>
+                  <option value="individual">Individual</option>
+                  <option value="mediana">Mediana</option>
+                  <option value="familiar">Familiar</option>
+                </select>
+                <label>Tamaño</label>
+              </div>
+              <div class="input-field col s12">
+                <label for="obs">Observaciones</label>
+                <textarea id="observations" id="observations" cols="30" rows="10">
+
+                </textarea>
+              </div>
+              <button type="submit" class="waves-effect waves-light btn">Enviar</button>
+            </div>
+          </form>
+          <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>
+
+          <!-- Modal Structure -->
+          <div id="modal1" class="modal">
+            <div class="modal-content">
+              <h4>Modal Header</h4>
+              <p>A bunch of text</p>
+            </div>
+            <div class="modal-footer">
+              <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('select');
+        var instances = M.FormSelect.init(elems);
+      });
+
+      document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('.modal');
+        var instances = M.Modal.init(elems);
+      });
+    
+      const form = document.querySelector('#form-pizza')
+      const pizza = document.querySelector('#pizza')
+      const size = document.querySelector('#size')
+      const observations = document.querySelector('#observations')
+
+      form.addEventListener('submit', async function (e) {
+        // 1. Evitamos que se recargue la página
+        e.preventDefault()
+
+        // 2. mandamos la solicitud POST mediante AJAX/fetch
+        let respuesta = await fetch('/pizza', {
+          method: 'POST',
+          body: {
+            pizza: pizza.value,
+            size: size.value,
+            observations: observations.value
+          }
+        })
+        respuesta = await respuesta.json()
+        console.log(respuesta);
+        debugger
+      })
+    </script>
+  </body>
+</html>
