@@ -59,6 +59,21 @@ app.get('/leer', async (req, res) => {
   res.send(contenido)
 })
 
+app.post('/crear-ajax', async (req, res) => {
+  // 0. Recuperamos el formulario
+  const form = await getForm(req)
+
+  // 1. recuperar los datos del formulario
+  const nombre = form.nombre
+  const contenido = form.contenido
+
+  const hoy = new Date()
+  // 2. creamos el nuevo archivo
+  await fs.writeFile(`files/${nombre}.txt`, `${hoy}\n${contenido}`, 'utf-8')
+  // 3. retornamos una respuesta al usuario
+  res.send('Archivo creado')
+})
+
 
 app.get('*', (req, res) => {
   res.send('Página aún no implementada')
