@@ -1,5 +1,6 @@
-const express = require('express')
-const fs = require('fs').promises
+const express = require('express');
+const fs = require('fs').promises;
+const Jimp = require('jimp')
 
 const app = express()
 
@@ -74,6 +75,20 @@ app.post('/crear-ajax', async (req, res) => {
   res.send('Archivo creado')
 })
 
+app.get('/sepia-imagen', async (req, res) => {
+  // 1. Cargamos la fuente
+  const font = await Jimp.loadFont(Jimp.FONT_SANS_32_WHITE)
+  
+  // 2. leemos la imagen desde el QueryString (formulario con GET)
+  const imagen = await Jimp.read(req.query.imagen)
+  
+  // 3. Modificamos la imagen, y la guardamos
+  imagen.sepia().print(font, 20, 20, 'La juventud de todos XD')
+  .write('public/foto-sepia.jpg')
+
+  // 4. Redirigimos al usuario a la imagen recién creada
+  res.redirect('/foto-sepia.jpg')
+})
 
 app.get('*', (req, res) => {
   res.send('Página aún no implementada')
