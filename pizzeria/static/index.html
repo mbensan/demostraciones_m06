@@ -100,11 +100,11 @@
         // 2. mandamos la solicitud POST mediante AJAX/fetch
         let respuesta = await fetch('/pizza', {
           method: 'POST',
-          body: {
+          body: JSON.stringify({
             pizza: pizza.value,
             size: size.value,
             observations: observations.value
-          }
+          })
         })
         respuesta = await respuesta.json()
         console.log(respuesta);
