@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Usuarios</title>
+</head>
+<body>
+  <h2>Lista de usuarios</h2>
+  <ul id="usuarios">No hay usuarios aún</ul>
+  <a href="/new-user">Agregar usuario</a>
+  <script>
+    async function cargar_usuarios () {
+      // 1. Le pedimos los usuarios a nuestra API
+      let resp = await fetch('/users')
+      resp = await resp.json()
+
+      // 2. armamaos el texto de la UL
+      let texto_ul = ''
+      for (let user of resp.users) {
+        texto_ul += `<li>${user.nombre}</li>`
+      }
+
+      // 3. agregamos ese texto al DOM
+      document.querySelector('#usuarios').innerHTML = texto_ul
+
+      console.log(resp);
+    }
+    cargar_usuarios() 
+  </script>
+</body>
+</html>
