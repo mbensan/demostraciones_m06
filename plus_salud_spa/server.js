@@ -2,6 +2,7 @@ const express = require('express')
 const axios = require('axios')
 const uuid = require('uuid')
 const moment = require('moment')
+const fs = require('fs').promises
 
 const app = express()
 
@@ -26,10 +27,32 @@ function getForm(req) {
   })
 }
 
-const users = []
 
-app.get('/users',  (req, res) => {
-  res.json({users})
+const crear_usuario = async function (nuevo_usuario) {
+  // 1. Leemos el contenido del archivo 'db.json'
+  let archivo_db = await fs.readFile('db.json', 'utf8')
+  // 2. Transformamos su contenido (string) a un objeto de JS
+  archivo_db = JSON.parse(archivo_db)
+  // 3. Le agregamos el nuevo usuario al array 'users
+  archivo_db.users.push(nuevo_usuario)
+  // 4. Volvemos a transformar el contenido a String
+  archivo_db = JSON.stringify(archivo_db)
+  // 5. Sobreescribimos el contenido del archivo 'db.json'
+  await fs.writeFile('db.json', archivo_db, 'utf8')
+}
+const leer_usuarios = async function () {
+  // 1.// 1. Leemos el contenido del archivo 'db.json'
+  let archivo_db = await fs.readFile('db.json', 'utf8')
+  // 2. Transformamos su contenido (string) a un objeto de JS
+  archivo_db = JSON.parse(archivo_db)
+  // 3. Retornar la propiedad 'users' del archivo leído
+  return archivo_db.users
+}
+
+
+app.get('/users',  async (req, res) => {
+  const users = await leer_usuarios()
+  res.json({ users })
 })
 
 app.get('/new-user', async (req, res) => {
@@ -50,7 +73,8 @@ app.get('/new-user', async (req, res) => {
     id: id_unico,
     timestamp: timestamp
   }
-  users.push(nuevo_usuario)
+  // 5. guardamos al usuario en la base de datos
+  await crear_usuario(nuevo_usuario)
 
   res.redirect('/')
 })

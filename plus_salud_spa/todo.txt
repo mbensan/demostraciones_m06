@@ -1,0 +1,4 @@
+- Usar una tabla para el frontend
+- Centralizar funciones de base de datos
+- Boton eliminar para eliminar usuarios
+- (complejo) Modal para editar un usuario específico
