@@ -5,10 +5,37 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Usuarios</title>
+  <style>
+    table {
+      border: 2px solid #333;
+    }
+    table td, table th {
+      border: 1px solid #333;
+    }
+  </style>
 </head>
 <body>
   <h2>Lista de usuarios</h2>
-  <ul id="usuarios">No hay usuarios aún</ul>
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Email</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody id="usuarios">
+      <!--
+      <tr>
+        <td>Pedro Palotes</td>
+        <td>p.palotes@email.com</td>
+        <td>
+          <a href="/eliminar/4334-4534-433">Eliminar</a>
+        </td>
+      </tr>
+      -->
+    </tbody>
+  </table>
   <a href="/new-user">Agregar usuario</a>
   <script src="script.js"></script>
 </body>

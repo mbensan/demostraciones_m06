@@ -48,6 +48,18 @@ const leer_usuarios = async function () {
   // 3. Retornar la propiedad 'users' del archivo leído
   return archivo_db.users
 }
+const eliminar_usuario = async function (id) {
+  // 1. Leemos el contenido del archivo 'db.json'
+  let archivo_db = await fs.readFile('db.json', 'utf8')
+  // 2. Transformamos su contenido (string) a un objeto de JS
+  archivo_db = JSON.parse(archivo_db)
+  // 3. eliminamos al usuario
+  archivo_db.users = archivo_db.users.filter(u => u.id != id)
+  // 4. Transformamos el contenido a String
+  archivo_db = JSON.stringify(archivo_db)
+  // 5. Guardamos el texto en 'db.json'
+  await fs.writeFile('db.json', archivo_db, 'utf8')
+}
 
 
 app.get('/users',  async (req, res) => {
@@ -57,7 +69,14 @@ app.get('/users',  async (req, res) => {
 
 app.get('/new-user', async (req, res) => {
   // 1. Pedimos un usuario al azar a la API de randomuser
-  const resp = await axios.get('https://randomuser.me/api')
+  let resp;
+  try {
+    resp = await axios.get('https://randomuser.me/api')
+  }
+  catch (error) {
+    console.log('error', error);
+    return res.redirect('/')
+  }
   const random_user = resp.data.results[0]
 
   // 2. Generamos el ID único
@@ -76,6 +95,11 @@ app.get('/new-user', async (req, res) => {
   // 5. guardamos al usuario en la base de datos
   await crear_usuario(nuevo_usuario)
 
+  res.redirect('/')
+})
+
+app.get('/eliminar', async (req, res) => {
+  await eliminar_usuario(req.query.id)
   res.redirect('/')
 })
 

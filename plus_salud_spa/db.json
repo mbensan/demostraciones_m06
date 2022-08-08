@@ -1,4 +1,22 @@
 {
   "users": [
+    {
+      "nombre": "Mago Fernandes",
+      "email": "mago.fernandes@example.com",
+      "id": "faeac88b-047f-4beb-b736-e1ab0b4b0294",
+      "timestamp": "2022-08-08T13:14:43.143Z"
+    },
+    {
+      "nombre": "Željka Tomašević",
+      "email": "zeljka.tomasevic@example.com",
+      "id": "4b3ac1ed-7d87-40f2-a405-22cc7d58cfb1",
+      "timestamp": "2022-08-08T13:14:53.358Z"
+    },
+    {
+      "nombre": "Gertruda Shramko",
+      "email": "gertruda.shramko@example.com",
+      "id": "bd657986-8954-468a-95dd-6c1eda6ee4dd",
+      "timestamp": "2022-08-08T13:15:54.953Z"
+    }
   ]
 }
